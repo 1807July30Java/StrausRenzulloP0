@@ -1,16 +1,3 @@
--- CREATE USER bankboy
--- IDENTIFIED BY p4ssw0rd
---   DEFAULT TABLESPACE users
---   TEMPORARY TABLESPACE temp
---   QUOTA 10M ON users;
---
--- GRANT connect to bankboy;
--- GRANT resource to bankboy;
--- GRANT create session TO bankboy;
--- GRANT create table TO bankboy;
--- GRANT create view TO bankboy;
-
-
 --************************ Create Tables ************************
 CREATE TABLE BANK_USER (
   USER_ID INTEGER PRIMARY KEY,
