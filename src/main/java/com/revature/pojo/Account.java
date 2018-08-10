@@ -1,18 +1,23 @@
 package com.revature.pojo;
 
+import java.util.Objects;
+
 public class Account {
 	private int accountID;
 	private double accountBalance;
-	
-	/**
-	 * @param accountID
-	 * @param accountBalance
-	 */
-	public Account(int accountID, double accountBalance) {
-		super();
+	private int ownerID;
+
+	public Account(double accountBalance, int ownerID) {
+		this.accountBalance = accountBalance;
+		this.ownerID = ownerID;
+	}
+
+	public Account(int accountID, double accountBalance, int ownerID) {
 		this.accountID = accountID;
 		this.accountBalance = accountBalance;
+		this.ownerID = ownerID;
 	}
+
 	/**
 	 * @return the accountID
 	 */
@@ -37,5 +42,36 @@ public class Account {
 	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
-	
+
+	public int getOwnerID() {
+		return ownerID;
+	}
+
+	public void setOwnerID(int ownerID) {
+		this.ownerID = ownerID;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Account account = (Account) o;
+		return getAccountID() == account.getAccountID() &&
+				Double.compare(account.getAccountBalance(), getAccountBalance()) == 0 &&
+				getOwnerID() == account.getOwnerID();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getAccountID(), getAccountBalance(), getOwnerID());
+	}
+
+	@Override
+	public String toString() {
+		return "Account{" +
+				"accountID=" + accountID +
+				", accountBalance=" + accountBalance +
+				", ownerID=" + ownerID +
+				'}';
+	}
 }

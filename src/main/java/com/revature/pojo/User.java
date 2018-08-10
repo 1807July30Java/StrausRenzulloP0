@@ -1,11 +1,19 @@
 package com.revature.pojo;
 
+import java.util.Objects;
+
 public class User {
 	private int userID;
 	private String username;
 	private String password;
 	private boolean isAdmin;
-	
+
+	public User(String username, String password, boolean isAdmin) {
+		this.username = username;
+		this.password = password;
+		this.isAdmin = isAdmin;
+	}
+
 	/**
 	 * @param userID
 	 * @param username
@@ -66,5 +74,31 @@ public class User {
 	 */
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return getUserID() == user.getUserID() &&
+				isAdmin() == user.isAdmin() &&
+				Objects.equals(getUsername(), user.getUsername()) &&
+				Objects.equals(getPassword(), user.getPassword());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getUserID(), getUsername(), getPassword(), isAdmin());
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"userID=" + userID +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", isAdmin=" + isAdmin +
+				'}';
 	}
 }

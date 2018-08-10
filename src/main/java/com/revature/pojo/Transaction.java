@@ -1,13 +1,20 @@
 package com.revature.pojo;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Transaction {
 	private int transID;
 	private LocalDateTime timestamp;
 	private int accountID;
 	private double amount;
-	
+
+	public Transaction(LocalDateTime timestamp, int accountID, double amount) {
+		this.timestamp = timestamp;
+		this.accountID = accountID;
+		this.amount = amount;
+	}
+
 	/**
 	 * @param transID
 	 * @param timestamp
@@ -68,5 +75,31 @@ public class Transaction {
 	 */
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Transaction that = (Transaction) o;
+		return getTransID() == that.getTransID() &&
+				getAccountID() == that.getAccountID() &&
+				Double.compare(that.getAmount(), getAmount()) == 0 &&
+				Objects.equals(getTimestamp(), that.getTimestamp());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getTransID(), getTimestamp(), getAccountID(), getAmount());
+	}
+
+	@Override
+	public String toString() {
+		return "Transaction{" +
+				"transID=" + transID +
+				", timestamp=" + timestamp +
+				", accountID=" + accountID +
+				", amount=" + amount +
+				'}';
 	}
 }
