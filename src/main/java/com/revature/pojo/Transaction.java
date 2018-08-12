@@ -7,27 +7,24 @@ public class Transaction {
 	private int transID;
 	private LocalDateTime timestamp;
 	private int accountID;
+	private int bankuserID;
 	private double amount;
 
-	public Transaction(LocalDateTime timestamp, int accountID, double amount) {
+	public Transaction(LocalDateTime timestamp, int accountID, int bankuserID, double amount) {
 		this.timestamp = timestamp;
 		this.accountID = accountID;
+		this.bankuserID = bankuserID;
 		this.amount = amount;
 	}
 
-	/**
-	 * @param transID
-	 * @param timestamp
-	 * @param accountID
-	 * @param amount
-	 */
-	public Transaction(int transID, LocalDateTime timestamp, int accountID, double amount) {
-		super();
+	public Transaction(int transID, LocalDateTime timestamp, int accountID, int bankuserID, double amount) {
 		this.transID = transID;
 		this.timestamp = timestamp;
 		this.accountID = accountID;
+		this.bankuserID = bankuserID;
 		this.amount = amount;
 	}
+
 	/**
 	 * @return the transID
 	 */
@@ -75,6 +72,14 @@ public class Transaction {
 	 */
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public int getBankuserID() {
+		return bankuserID;
+	}
+
+	public void setBankuserID(int bankuserID) {
+		this.bankuserID = bankuserID;
 	}
 
 	@Override

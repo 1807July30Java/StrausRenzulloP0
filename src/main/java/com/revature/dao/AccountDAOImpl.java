@@ -12,8 +12,9 @@ import java.sql.SQLException;
 public class AccountDAOImpl implements AccountDAO {
 
     private String filename = "src/main/resources/connection.properties";
+    TransactionDAO td = new TransactionDAOImpl();
 
-    public double deposit(Account a, double amnt) {
+    public double deposit(Account a, int userID, double amnt) {
         PreparedStatement pstmt;
 
         if (a == null || amnt < 0) {
@@ -27,6 +28,7 @@ public class AccountDAOImpl implements AccountDAO {
             pstmt.setInt(2, a.getAccountID());
             if (pstmt.executeUpdate() > 0) {
                 a.setAccountBalance(a.getAccountBalance()+amnt);
+                td.addTransaction(a.getAccountID(), userID, amnt);
                 return a.getAccountBalance();
             }
 
@@ -36,7 +38,7 @@ public class AccountDAOImpl implements AccountDAO {
         return a.getAccountBalance();
     }
 
-    public double withdraw(Account a, double amnt) {
+    public double withdraw(Account a, int userID, double amnt) {
         PreparedStatement pstmt;
 
         if (a == null || amnt < 0 || amnt > a.getAccountBalance()) {
@@ -50,6 +52,7 @@ public class AccountDAOImpl implements AccountDAO {
             pstmt.setInt(2, a.getAccountID());
             if (pstmt.executeUpdate() > 0) {
                 a.setAccountBalance(a.getAccountBalance()-amnt);
+                td.addTransaction(a.getAccountID(), userID, -amnt);
                 return a.getAccountBalance();
             }
 
@@ -73,6 +76,32 @@ public class AccountDAOImpl implements AccountDAO {
 
             if(pstmt.executeUpdate() > 0) {
                 return true;
+            }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addAccount(int ownerID) {
+        PreparedStatement pstmt;
+
+        try (Connection con = ConnectionUtil.getConnectionFromFile(filename)){
+            String sql = "SELECT * FROM BANK_USER WHERE USER_ID = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, ownerID);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                sql = "INSERT INTO BANK_ACCOUNT (OWNER_ID) VALUES (?)";
+                pstmt = con.prepareStatement(sql);
+                pstmt.setInt(1, ownerID);
+
+                if (pstmt.executeUpdate() > 0) {
+                    return true;
+                }
             }
 
         } catch (SQLException | IOException e) {
