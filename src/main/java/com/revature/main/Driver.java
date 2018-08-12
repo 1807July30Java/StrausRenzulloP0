@@ -35,14 +35,26 @@ class Driver{
         case "w":
           int account1 = Integer.parseInt(args[2]);
           int value1 = Integer.parseInt(args[1]);
+          Account curr = ad.getAccountById(account1);
           System.out.println("withdraw " + value1 + " from account " + account1);
-          ad.withdraw(ad.getAccountById(account1),value1);
+          if(curr.getOwnerID() == activeUser.getUserID()){
+            ad.withdraw(curr,activeUser.getUserID(),value1);
+          }
+          else{
+            System.out.println("you do not own this account");
+          }
           break;
         case "d":
           int account2 = Integer.parseInt(args[2]);
           int value2 = Integer.parseInt(args[1]);
+          Account curr2 = ad.getAccountById(account2);
           System.out.println("deposit " + value2 + " to account " + account2);
-          ad.deposit(ad.getAccountById(account2),value2);
+          if(curr2.getOwnerID() == activeUser.getUserID()){
+            ad.deposit(curr2,activeUser.getUserID(),value2);
+          }
+          else{
+            System.out.println("you do not own this account");
+          }
           break;
         case "add":
           Account a = new Account(0,activeUser.getUserID());

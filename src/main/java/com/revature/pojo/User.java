@@ -1,19 +1,10 @@
 package com.revature.pojo;
 
-import java.util.Objects;
-
 public class User {
 	private int userID;
 	private String username;
-	private String password;
+	private int password;
 	private boolean isAdmin;
-
-	public User(String username, String password, boolean isAdmin) {
-		this.username = username;
-		this.password = password;
-		this.isAdmin = isAdmin;
-	}
-
 	/**
 	 * @param userID
 	 * @param username
@@ -24,7 +15,14 @@ public class User {
 		super();
 		this.userID = userID;
 		this.username = username;
-		this.password = password;
+		this.password = password.hashCode();
+		this.isAdmin = isAdmin;
+	}
+  public User(int userID, String username, int passwordHash, boolean isAdmin) {
+		super();
+		this.userID = userID;
+		this.username = username;
+		this.password = passwordHash;
 		this.isAdmin = isAdmin;
 	}
 	/**
@@ -54,14 +52,17 @@ public class User {
 	/**
 	 * @return the password
 	 */
-	public String getPassword() {
+	public int getPassword() {
 		return password;
 	}
 	/**
 	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = password.hashCode();
+	}
+  public void setPassword(int passwordhash) {
+		this.password = passwordhash;
 	}
 	/**
 	 * @return the isAdmin
@@ -74,31 +75,5 @@ public class User {
 	 */
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		User user = (User) o;
-		return getUserID() == user.getUserID() &&
-				isAdmin() == user.isAdmin() &&
-				Objects.equals(getUsername(), user.getUsername()) &&
-				Objects.equals(getPassword(), user.getPassword());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getUserID(), getUsername(), getPassword(), isAdmin());
-	}
-
-	@Override
-	public String toString() {
-		return "User{" +
-				"userID=" + userID +
-				", username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", isAdmin=" + isAdmin +
-				'}';
 	}
 }
