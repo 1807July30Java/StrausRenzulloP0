@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import com.revature.pojo.Account;
+import com.revature.pojo.User;
 import com.revature.util.ConnectionUtil;
 
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountDAOImpl implements AccountDAO {
 
@@ -156,6 +159,29 @@ public class AccountDAOImpl implements AccountDAO {
             e.printStackTrace();
         }
 
+        return a;
+    }
+
+    @Override
+    public List<Account> getAllAccounts(User u) {
+        PreparedStatement pstmt;
+        List<Account> a = new ArrayList<Account>();
+
+        try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
+            String sql = "SELECT * FROM BANK_ACCOUNT WHERE OWNER_ID = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, u.getUserID());
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int acctID = rs.getInt("ACCOUNT_ID");
+                double balance = rs.getDouble("BALANCE");
+                int owner = rs.getInt("OWNER_ID");
+                a.add(new Account(acctID, balance, owner));
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
         return a;
     }
 }
