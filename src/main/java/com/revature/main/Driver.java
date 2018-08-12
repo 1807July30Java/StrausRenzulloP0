@@ -1,4 +1,4 @@
-package com.revature.driver;
+package com.revature.main;
 
 import java.io.*;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ class Driver{
       String username = scan.next();
       System.out.print("Password:");
       String password = scan.next();
-      //activeUser = ud.getUser(username,password);
+      activeUser = ud.getUser(username,password);
       activeUser = new User(0,username,password,true);
       System.out.println(activeUser.getUsername());
     }catch(Exception e){System.out.println(e.getMessage());}
@@ -36,29 +36,27 @@ class Driver{
           int account1 = Integer.parseInt(args[2]);
           int value1 = Integer.parseInt(args[1]);
           System.out.println("withdraw " + value1 + " from account " + account1);
-          //ad.withdraw(ad.getAccountById(account1),value1);
+          ad.withdraw(ad.getAccountById(account1),value1);
           break;
         case "d":
           int account2 = Integer.parseInt(args[2]);
           int value2 = Integer.parseInt(args[1]);
           System.out.println("deposit " + value2 + " to account " + account2);
-          //ad.deposit(ad.getAccountById(account2),value2);
+          ad.deposit(ad.getAccountById(account2),value2);
           break;
         case "add":
           Account a = new Account(0,activeUser.getUserID());
           System.out.println("added account to " + activeUser.getUsername());
-          //ad.addAccount(a);
+          ad.addAccount(a);
           break;
         case "del":
           int accountid = Integer.parseInt(args[1]);
           System.out.println("delete empty account " + accountid);
-          /*
           Account current = ad.getAccountById(accountid);
           if (current.getAccountBalance()>0){
 
             ad.deleteAccount(current);
           }
-          */
           break;
         case "new":
             if(activeUser.isAdmin()){
@@ -66,7 +64,7 @@ class Driver{
               String pass = args[2];
               boolean isAd = Boolean.valueOf(args[3]);
               System.out.println("added user " + username + "with pass " + pass + "is admin =" + isAd);
-              //ud.newUser(username,pass,isAd);
+              ud.newUser(username,pass,isAd);
             }
           break;
         case "help":
