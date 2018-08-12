@@ -76,6 +76,9 @@ class Driver {
                     ad.deleteAccount(current);
                 }
                 break;
+            case "acc":
+                ad.getAllAccounts(activeUser);
+                break;
             case "new":
                 if (activeUser.isAdmin()) {
                     String username = args[1];
@@ -90,7 +93,9 @@ class Driver {
                 System.out.println("d [amt][accountid] : deposit amt to account with accountid");
                 System.out.println("add : create new empty account");
                 System.out.println("del [accountid] : delete empty account with accountid");
+                System.out.println("acc : retrieves all accounts the user has");
                 System.out.println("new [username][password][isadmin] : Creates new user with username, password, and isadmin");
+                System.out.println("quit : quits application");
                 break;
             case "quit":
                 break;
