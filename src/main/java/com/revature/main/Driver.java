@@ -77,7 +77,7 @@ class Driver {
                 }
                 break;
             case "acc":
-                ad.getAllAccounts(activeUser);
+                System.out.println(ad.getAllAccounts(activeUser));
                 break;
             case "new":
                 if (activeUser.isAdmin()) {

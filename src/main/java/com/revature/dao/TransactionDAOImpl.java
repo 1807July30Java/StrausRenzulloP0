@@ -4,10 +4,8 @@ import com.revature.pojo.Transaction;
 import com.revature.util.ConnectionUtil;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
             String sql = "INSERT INTO BANK_TRANSACTION (TIMESTAMP, ACCOUNT_ID, BANKUSER_ID, AMOUNT) VALUES (?,?,?,?)";
             pstmt = con.prepareStatement(sql);
-            pstmt.setObject(1, LocalDateTime.now());
+            pstmt.setObject(1, Timestamp.from(Instant.now()));
             pstmt.setInt(2, accountID);
             pstmt.setInt(3, userID);
             pstmt.setDouble(4, amnt);
