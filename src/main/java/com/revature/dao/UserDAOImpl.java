@@ -19,7 +19,7 @@ public class UserDAOImpl implements UserDAO {
             //using a Statement--beware injection
             String sql = "SELECT * FROM BANK_USER WHERE USERNAME = ? AND PASSWORD = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, username);
+            stmt.setString(1, username.toLowerCase());
             stmt.setInt(2, pass.hashCode());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -27,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
                 String name = rs.getString("USERNAME");
                 int password = rs.getInt("PASSWORD");
                 boolean isAdmin = rs.getBoolean("IS_ADMIN");
-                u = new User(id, name, password, false);
+                u = new User(id, name, password, isAdmin);
             } else {
                 System.out.println("No users with that username/password combo");
             }
@@ -44,7 +44,7 @@ public class UserDAOImpl implements UserDAO {
         try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
             String sql = "INSERT INTO BANK_USER(USERNAME, PASSWORD, IS_ADMIN) VALUES (?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, username);
+            pstmt.setString(1, username.toLowerCase());
             pstmt.setInt(2, password.hashCode());
             pstmt.setBoolean(3, isAdmin);
             pstmt.executeUpdate();

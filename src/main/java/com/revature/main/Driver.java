@@ -12,19 +12,20 @@ class Driver {
     private AccountDAO ad = new AccountDAOImpl();
     private TransactionDAO tx = new TransactionDAOImpl();
 
-    private Driver() {
-
-        try {
-            Scanner scan = new Scanner(System.in);
-            System.out.print("Username:");
-            String username = scan.next().toLowerCase();
-            System.out.print("Password:");
-            String password = scan.next();
-            activeUser = ud.getUser(username, password);
-//            activeUser = new User(0, username, password, true);
-            System.out.println(activeUser.getUsername());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    private void getUser() {
+        while (this.activeUser == null) {
+            try {
+                Scanner scan = new Scanner(System.in);
+                System.out.print("Username:");
+                String username = scan.next();
+                System.out.print("Password:");
+                String password = scan.next();
+                this.activeUser = ud.getUser(username, password);
+                //            activeUser = new User(0, username, password, true);
+                System.out.println(activeUser.getUsername());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -62,12 +63,14 @@ class Driver {
                   int accountid = Integer.parseInt(args[1]);
                   System.out.println("delete empty account " + accountid);
                   Account current = ad.getAccountById(accountid);
-                  if (current.getAccountBalance() > 0) {
-                      ad.deleteAccount(current);
-                  }
+                  ad.deleteAccount(current);
                   break;
               case "acc":
-                  System.out.println(ad.getAllAccounts(activeUser));
+//                  System.out.println(ad.getAllAccounts(activeUser));
+                  System.out.println();
+                  for (Account acct : ad.getAllAccounts(activeUser)) {
+                      System.out.println(acct);
+                  }
                   break;
               case "TxA":
                   if(args.length>1){
@@ -97,8 +100,11 @@ class Driver {
               case "new":
                   if (activeUser.isAdmin()) {
                       String username = args[1];
+                      System.out.println(args[1]);
                       String pass = args[2];
+                      System.out.println(args[2]);
                       boolean isAd = Boolean.valueOf(args[3]);
+                      System.out.println(args[3]);
                       System.out.println("added user " + username + "with pass " + pass + "is admin =" + isAd);
                       ud.newUser(username, pass, isAd);
                   }
@@ -126,6 +132,7 @@ class Driver {
 
     public static void main(String[] args) {
         Driver D = new Driver();
+        D.getUser();
         Scanner scan = new Scanner(System.in);
         String op = null;
         while (op == null || !op.equals("quit")) {
