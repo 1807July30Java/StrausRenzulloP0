@@ -19,28 +19,29 @@ class Driver {
                 Scanner scan = new Scanner(System.in);
                 boolean registered = false;
                 boolean didregister = false;
-                while(!registered) {
-                	System.out.print("login as 'returning' user or 'register':");
-                	String next = scan.nextLine();
-                	if(next.equals("returning")) {registered = true;}
-                	else if(next.equals("register")){
-                		System.out.print("Enter new username: ");
-                		String username = scan.nextLine();
-                		System.out.print("Enter " + username + "'s password : ");
-                		String password = scan.nextLine();
-                		ud.newUser(username,password,false);
-                		registered = true;
-                		didregister = true;
-                		this.activeUser = ud.getUser(username, password);
-                	}
+                while (!registered) {
+                    System.out.print("login as 'returning' user or 'register':");
+                    String next = scan.nextLine();
+                    if (next.equals("returning")) {
+                        registered = true;
+                    } else if (next.equals("register")) {
+                        System.out.print("Enter new username: ");
+                        String username = scan.nextLine();
+                        System.out.print("Enter " + username + "'s password : ");
+                        String password = scan.nextLine();
+                        ud.newUser(username, password, false);
+                        registered = true;
+                        didregister = true;
+                        this.activeUser = ud.getUser(username, password);
+                    }
                 }
-                if(!didregister) {
-                	System.out.print("Username:");
-                	String username = scan.next();
-                	System.out.print("Password:");
-                	String password = scan.next();
-                	this.activeUser = ud.getUser(username, password);
-                	System.out.println(activeUser.getUsername());
+                if (!didregister) {
+                    System.out.print("Username:");
+                    String username = scan.next();
+                    System.out.print("Password:");
+                    String password = scan.next();
+                    this.activeUser = ud.getUser(username, password);
+                    System.out.println(activeUser.getUsername());
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -97,7 +98,7 @@ class Driver {
                         Account test = ad.getAccountById(accid);
                         if (test.getAccountID() == activeUser.getUserID() || activeUser.isAdmin()) {
                             System.out.println();
-                            for(Transaction t : tx.getTransactionsForUser(accid)) {
+                            for (Transaction t : tx.getTransactionsForUser(accid)) {
                                 System.out.println(t);
                             }
                         } else {
@@ -110,19 +111,19 @@ class Driver {
                 case "TxU":
                     if (!activeUser.isAdmin()) {
                         System.out.println();
-                        for(Transaction t : tx.getTransactionsForUser(activeUser.getUserID())) {
+                        for (Transaction t : tx.getTransactionsForUser(activeUser.getUserID())) {
                             System.out.println(t);
                         }
                     } else {
                         if (args.length > 1) {
                             int uid = Integer.parseInt(args[1]);
                             System.out.println();
-                            for(Transaction t : tx.getTransactionsForUser(uid)) {
+                            for (Transaction t : tx.getTransactionsForUser(uid)) {
                                 System.out.println(t);
                             }
                         } else {
                             System.out.println();
-                            for(Transaction t : tx.getTransactionsForUser(activeUser.getUserID())) {
+                            for (Transaction t : tx.getTransactionsForUser(activeUser.getUserID())) {
                                 System.out.println(t);
                             }
                         }
@@ -141,16 +142,16 @@ class Driver {
                     }
                     break;
                 case "elevate":
-                	if(activeUser.isAdmin()){
-                		ud.elevateUser(args[1]);
-                	}
-                	break;
+                    if (activeUser.isAdmin()) {
+                        ud.elevateUser(args[1]);
+                    }
+                    break;
                 case "delete":
-                	if(activeUser.isAdmin()){
-                		ud.deleteUser(args[1]);
-                		System.out.println(args[1] + " deleted");
-                	}
-                	break;
+                    if (activeUser.isAdmin()) {
+                        ud.deleteUser(args[1]);
+                        System.out.println(args[1] + " deleted");
+                    }
+                    break;
                 case "help":
                     System.out.println("w [amt][accountid] : withdraw amt from account with accountid");
                     System.out.println("d [amt][accountid] : deposit amt to account with accountid");
@@ -159,11 +160,11 @@ class Driver {
                     System.out.println("acc : retrieves all accounts the user has");
                     System.out.println("TxA [accountid] : shows all transactions from account with accountid, only works if account belongs to you (or user is admin)");
                     System.out.println("TxU : shows all of your transactions");
-                    if(activeUser.isAdmin()){
-                    System.out.println("TxU [userid] : if current user is admin, they can see all transactions for a given user with userid");
-                    System.out.println("new [username][password][isadmin] : Creates new user with username, password, and isadmin");
-                    System.out.println("elevate [username]: elevate user to admin status");
-                    System.out.println("delete [username]: delete user");
+                    if (activeUser.isAdmin()) {
+                        System.out.println("TxU [userid] : if current user is admin, they can see all transactions for a given user with userid");
+                        System.out.println("new [username][password][isadmin] : Creates new user with username, password, and isadmin");
+                        System.out.println("elevate [username]: elevate user to admin status");
+                        System.out.println("delete [username]: delete user");
                     }
                     System.out.println("quit : quits application");
                     break;
