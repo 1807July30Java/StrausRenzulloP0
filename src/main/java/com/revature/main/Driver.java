@@ -91,7 +91,10 @@ class Driver {
                     break;
                 case "TxU":
                     if (!activeUser.isAdmin()) {
-                        System.out.println(tx.getTransactionsForUser(activeUser.getUserID()));
+                        System.out.println();
+                        for(Transaction t : tx.getTransactionsForUser(activeUser.getUserID())) {
+                            System.out.println(t);
+                        }
                     } else {
                         if (args.length > 1) {
                             int uid = Integer.parseInt(args[1]);
