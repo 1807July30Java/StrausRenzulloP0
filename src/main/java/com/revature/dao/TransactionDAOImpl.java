@@ -66,7 +66,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<Transaction> t = new ArrayList<Transaction>();
 
         try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
-            String sql = "SELECT * FROM BANK_TRANSACTION WHERE ACCOUNT_ID = ? ORDER BY BANK_TRANSACTION.TIMESTAMP";
+            String sql = "SELECT * FROM BANK_TRANSACTION WHERE ACCOUNT_ID = ? ORDER BY BANK_TRANSACTION.TIMESTAMP DESC";
             pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, accountID);
             ResultSet rs = pstmt.executeQuery();
@@ -91,7 +91,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<Transaction> t = new ArrayList<Transaction>();
 
         try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
-            String sql = "SELECT * FROM BANK_TRANSACTION WHERE BANKUSER_ID = ? ORDER BY BANK_TRANSACTION.TIMESTAMP";
+            String sql = "SELECT * FROM BANK_TRANSACTION WHERE BANKUSER_ID = ? ORDER BY BANK_TRANSACTION.TIMESTAMP DESC";
             pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, userID);
             ResultSet rs = pstmt.executeQuery();

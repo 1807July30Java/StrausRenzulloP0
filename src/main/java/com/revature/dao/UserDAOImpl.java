@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class UserDAOImpl implements UserDAO {
     private String filename = "src/main/resources/connection.properties";
-    User u = null;
+    private User u = null;
 
     public User getUser(String username, String pass) {
         try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
@@ -34,7 +34,6 @@ public class UserDAOImpl implements UserDAO {
             con.close();
             return u;
         } catch (SQLException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -51,5 +50,40 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean elevateUser(String username) {
+        PreparedStatement pstmt;
+
+        try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
+            String sql = "UPDATE BANK_USER SET IS_ADMIN = 1 WHERE USERNAME = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, username);
+
+            if(pstmt.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean deleteUser(String username) {
+        PreparedStatement pstmt;
+
+        try (Connection con = ConnectionUtil.getConnectionFromFile(filename)) {
+            String sql = "DELETE FROM BANK_USER WHERE USERNAME = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, username);
+
+            if(pstmt.executeUpdate() > 0 ) {
+                return true;
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
